@@ -6,9 +6,9 @@ object ACO_LP {
   var Subject : List [String] = List()
   var Object : List [String] = List()
   var Link : List [String] = List()
-  var Entities : List [String] = List()
+  var Entities : List [String] = List()         //#  Why there was a need to mantain a list of entities and then Distinct Entities in separate variables ?
   var DisEntities : List [String] = List()
-  var AProd : Array [Double] = Array()
+  var AProd : Array [Double] = Array()          //#  Avoid arrays as much as possible. Prefer Lists until its necessary
   var AProb : Array [Double] = Array()
   var Path : Array [Int] = Array()
   var Weight : Array [Int] = Array()
