@@ -102,15 +102,15 @@ object ACO_LP {
     var adjacencyMatrix = Array.ofDim[Int] (TotalNoOfNodes1, TotalNoOfNodes1)
     println("Adjacency Matrix is " )
     
-     for (i <- 0 to lines.length-1 ){
-         adjacencyMatrix(Subject(i).toInt)(Object(i).toInt) = (Link(i).toInt)
+     for (i <- 0 to lines.length-1 ){       //#   You once repated the same loop above then why you haven't set this matrix over there. As repeating same loops increases time.
+         adjacencyMatrix(Subject(i).toInt)(Object(i).toInt) = (Link(i).toInt)   //# Here your assumption is that dataset always would be in number format. It cant be strings or other formats etc? Have you checked all datasets on which author has experimented as we have to repeat the same.
          adjacencyMatrix(Object(i).toInt)(Subject(i).toInt) = (Link(i).toInt)
       
      }
     
-    for (i <- 1 to DisEntities.length+1){
-      for (j <- 1 to DisEntities.length+1){
-          print(" " +adjacencyMatrix(i)(j))
+    for (i <- 1 to DisEntities.length+1){   //# Why not its 0 to DisEntities.length
+      for (j <- 1 to DisEntities.length+1){   //# Why not its 0 to DisEntities.length
+          print(" " +adjacencyMatrix(i)(j))    //#   Comment such prints when you are sure that you are upto the required working
       }
       
       println()
@@ -119,10 +119,10 @@ object ACO_LP {
     
        var pheromoneMatrix = Array.ofDim[Double] (  TotalNoOfNodes1, TotalNoOfNodes1  )
        println("Pheromone Matrix is " )
-   for (i <- 1 to DisEntities.length+1){  
-      for (j <- 1 to DisEntities.length+1){ 
+   for (i <- 1 to DisEntities.length+1){  //# Why not its 0 to DisEntities.length
+      for (j <- 1 to DisEntities.length+1){ //# Why not its 0 to DisEntities.length
           if(adjacencyMatrix(i)(j) != 0){
-             pheromoneMatrix (i)(j)  =  pheromoneCalculate  (  lambda,  abselon,  1  ) 
+             pheromoneMatrix (i)(j)  =  pheromoneCalculate  (  lambda,  abselon,  1  ) // True word is Epsilon not abselon i think. Please recheck
           }
         
         else{
@@ -179,7 +179,7 @@ object ACO_LP {
                 AProb  = Array.fill(adjacentTo.length)(0)
                 println("adjacent value"+adjacentTo.length)
                    for(ai <-adjacentTo ){
-                      println(ai)     
+                      printlnvar adjacencyMatrix = Array.ofDim[Int] (TotalNoOfNodes1, TotalNoOfNodes1)(ai)     
                     }
 
                   var arr : Array [Int] = Array()  
