@@ -75,6 +75,7 @@ object ACO_LP {
                       (S,O,L)
     } )
     (Subject, Object, Links)  = Temp.unzip3
+    DisEntities = (Subject ::: Object).distinct
     */
     
     println("...........Subjects are...........")       //#   Comment such prints when you are sure that you are upto the required working
@@ -92,11 +93,11 @@ object ACO_LP {
     println("...........Entities are...........")     //#   Comment such prints when you are sure that you are upto the required working
     DisEntities.foreach(println)
     
-    val TotalNoOfNodes = DisEntities.length    
-    println(" Total No Of Nodes are : " + TotalNoOfNodes)
+    val TotalNoOfNodes = DisEntities.length    //# Better you could refer it as DisEntities.length in upcoming places rather declaring separate variable. This may increase readability.
+    println(" Total No Of Nodes are : " + TotalNoOfNodes)   //#   Comment such prints when you are sure that you are upto the required working
     
-    val TotalNoOfNodes1 = Entities.length    
-    println(" Total No Of Nodes are : " + TotalNoOfNodes1)
+    val TotalNoOfNodes1 = Entities.length    //# Better you could refer it as DisEntities.length in upcoming places rather declaring separate variable. This may increase readability.
+    println(" Total No Of Nodes are : " + TotalNoOfNodes1)    //#   Comment such prints when you are sure that you are upto the required working
     
     var adjacencyMatrix = Array.ofDim[Int] (TotalNoOfNodes1, TotalNoOfNodes1)
     println("Adjacency Matrix is " )
