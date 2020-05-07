@@ -50,34 +50,46 @@ object ACO_LP {
     val m  = scala.io.StdIn.readInt()
     
     val Filename= "/home/amara/newData"// data set
-    for(line <-Source.fromFile(Filename).getLines ){
+                                                      //#   Better here write code to note the startig time of the technique.
+    for(line <-Source.fromFile(Filename).getLines ){  //# Once you are sure that file is loding fine then comment such print loops as these also slows down the output
       println(line)
     }
     
     var lines = Source.fromFile(Filename).getLines().toArray 
-    for(i<- 0 to lines.length-1){
+    for(i<- 0 to lines.length-1){         //#     Aoid loops as much as possibe. I think it can be done using map operation. I am doing this below this loop in comments for your guideline.
       var s = lines(i).split(",")
       Subject = s(0) :: Subject
       Object = s(2) :: Object
       Link = s(1) :: Link
-      Entities = (Subject ::: Object)
-      DisEntities = (Subject ::: Object).distinct
+      Entities = (Subject ::: Object)                 //# I think this line can be put outside loop and here it is killing a lot of time.
+      DisEntities = (Subject ::: Object).distinct     //# I think this line can be put outside loop and here it is killing a lot of time.
       
     }
     
-    println("...........Subjects are...........")
+    /*
+     var Temp =       lines.map ( line  =>  {
+                      var s = line.split(",")
+                      S = s(0)
+                      O = s(2)
+                      L = s(1)
+                      (S,O,L)
+    } )
+    (Subject, Object, Links)  = Temp.unzip3
+    */
+    
+    println("...........Subjects are...........")       //#   Comment such prints when you are sure that you are upto the required working
     Subject.foreach(println)
     
-    println("...........Objects are...........")
+    println("...........Objects are...........")        //#   Comment such prints when you are sure that you are upto the required working
     Object.foreach(println)
     
-    println("...........Links are...........")
+    println("...........Links are...........")          //#   Comment such prints when you are sure that you are upto the required working
     Link.foreach(println)
     
-    println("...........Entities are...........")
+    println("...........Entities are...........")      //#   Comment such prints when you are sure that you are upto the required working
     Entities.foreach(println)
     
-    println("...........Entities are...........")
+    println("...........Entities are...........")     //#   Comment such prints when you are sure that you are upto the required working
     DisEntities.foreach(println)
     
     val TotalNoOfNodes = DisEntities.length    
