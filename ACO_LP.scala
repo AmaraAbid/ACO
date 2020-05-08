@@ -6,9 +6,9 @@ object ACO_LP {
   var Subject : List [String] = List()
   var Object : List [String] = List()
   var Link : List [String] = List()
-  var Entities : List [String] = List()
+  var Entities : List [String] = List()         //#  Why there was a need to mantain a list of entities and then Distinct Entities in separate variables ?
   var DisEntities : List [String] = List()
-  var AProd : Array [Double] = Array()
+  var AProd : Array [Double] = Array()          //#  Avoid arrays as much as possible. Prefer Lists until its necessary
   var AProb : Array [Double] = Array()
   var Path : Array [Int] = Array()
   var Weight : Array [Int] = Array()
@@ -50,66 +50,81 @@ object ACO_LP {
     val m  = scala.io.StdIn.readInt()
     
     val Filename= "/home/amara/newData"// data set
-    for(line <-Source.fromFile(Filename).getLines ){
+                                                      //#   Better here write code to note the startig time of the technique.
+    for(line <-Source.fromFile(Filename).getLines ){  //# Once you are sure that file is loding fine then comment such print loops as these also slows down the output
       println(line)
     }
     
     var lines = Source.fromFile(Filename).getLines().toArray 
-    for(i<- 0 to lines.length-1){
+    for(i<- 0 to lines.length-1){         //#     Aoid loops as much as possibe. I think it can be done using map operation. I am doing this below this loop in comments for your guideline.
       var s = lines(i).split(",")
       Subject = s(0) :: Subject
       Object = s(2) :: Object
       Link = s(1) :: Link
-      Entities = (Subject ::: Object)
-      DisEntities = (Subject ::: Object).distinct
+      Entities = (Subject ::: Object)                 //# I think this line can be put outside loop and here it is killing a lot of time.
+      DisEntities = (Subject ::: Object).distinct     //# I think this line can be put outside loop and here it is killing a lot of time.
       
     }
     
-    println("...........Subjects are...........")
+    /*
+     var Temp =       lines.map ( line  =>  {
+                      var s = line.split(",")
+                      S = s(0)
+                      O = s(2)
+                      L = s(1)
+                      (S,O,L)
+    } )
+    (Subject, Object, Links)  = Temp.unzip3
+    DisEntities = (Subject ::: Object).distinct
+    */
+    
+    println("...........Subjects are...........")       //#   Comment such prints when you are sure that you are upto the required working
     Subject.foreach(println)
     
-    println("...........Objects are...........")
+    println("...........Objects are...........")        //#   Comment such prints when you are sure that you are upto the required working
     Object.foreach(println)
     
-    println("...........Links are...........")
+    println("...........Links are...........")          //#   Comment such prints when you are sure that you are upto the required working
     Link.foreach(println)
     
-    println("...........Entities are...........")
+    println("...........Entities are...........")      //#   Comment such prints when you are sure that you are upto the required working
     Entities.foreach(println)
     
-    println("...........Entities are...........")
+    println("...........Entities are...........")     //#   Comment such prints when you are sure that you are upto the required working
     DisEntities.foreach(println)
     
-    val TotalNoOfNodes = DisEntities.length    
-    println(" Total No Of Nodes are : " + TotalNoOfNodes)
+    val TotalNoOfNodes = DisEntities.length    //# Better you could refer it as DisEntities.length in upcoming places rather declaring separate variable. This may increase readability.
+    println(" Total No Of Nodes are : " + TotalNoOfNodes)   //#   Comment such prints when you are sure that you are upto the required working
     
-    val TotalNoOfNodes1 = Entities.length    
-    println(" Total No Of Nodes are : " + TotalNoOfNodes1)
+    val TotalNoOfNodes1 = Entities.length    //# Better you could refer it as DisEntities.length in upcoming places rather declaring separate variable. This may increase readability.
+    println(" Total No Of Nodes are : " + TotalNoOfNodes1)    //#   Comment such prints when you are sure that you are upto the required working
     
     var adjacencyMatrix = Array.ofDim[Int] (TotalNoOfNodes1, TotalNoOfNodes1)
     println("Adjacency Matrix is " )
     
-     for (i <- 0 to lines.length-1 ){
-         adjacencyMatrix(Subject(i).toInt)(Object(i).toInt) = (Link(i).toInt)
+     for (i <- 0 to lines.length-1 ){       //#   You once repeated the same loop above then why you haven't set this matrix over there. As repeating same loops increases time.
+         adjacencyMatrix(Subject(i).toInt)(Object(i).toInt) = (Link(i).toInt)   //# Here your assumption is that dataset always would be in number format. It cant be strings or other formats etc? Have you checked all datasets on which author has experimented as we have to repeat the same.
          adjacencyMatrix(Object(i).toInt)(Subject(i).toInt) = (Link(i).toInt)
       
      }
     
-    for (i <- 1 to DisEntities.length+1){
-      for (j <- 1 to DisEntities.length+1){
-          print(" " +adjacencyMatrix(i)(j))
+    for (i <- 1 to DisEntities.length+1){   //# Why not its 0 to DisEntities.length
+      for (j <- 1 to DisEntities.length+1){   //# Why not its 0 to DisEntities.length
+          print(" " +adjacencyMatrix(i)(j))    //#   Comment such prints when you are sure that you are upto the required working
       }
       
       println()
     
    }
     
-       var pheromoneMatrix = Array.ofDim[Double] (  TotalNoOfNodes1, TotalNoOfNodes1  )
+       var pheromoneMatrix = Array.ofDim[Double] (  TotalNoOfNodes1, TotalNoOfNodes1  )   //#   Better use DisEntities.length instead of TotalNoOfNodes1
        println("Pheromone Matrix is " )
-   for (i <- 1 to DisEntities.length+1){  
-      for (j <- 1 to DisEntities.length+1){ 
+    
+    //#       The following nested loop can be avoided by using a map function. Discuss if you dont understand.
+   for (i <- 1 to DisEntities.length+1){  //# Why not its 0 to DisEntities.length
+      for (j <- 1 to DisEntities.length+1){ //# Why not its 0 to DisEntities.length
           if(adjacencyMatrix(i)(j) != 0){
-             pheromoneMatrix (i)(j)  =  pheromoneCalculate  (  lambda,  abselon,  1  ) 
+             pheromoneMatrix (i)(j)  =  pheromoneCalculate  (  lambda,  abselon,  1  ) // True word is Epsilon not abselon i think. Please recheck
           }
         
         else{
@@ -122,7 +137,9 @@ object ACO_LP {
     
         var heuristicMatrix = Array.ofDim[Double](TotalNoOfNodes1, TotalNoOfNodes1)
         println("Heuristic Matrix is " )
-  
+    
+    
+      //#       The following nested loop can be avoided by using a map function. Discuss if you dont understand.
    for (i <- 1 to DisEntities.length+1)  {  
       for (j <- 1 to DisEntities.length+1){
             var count = 0
@@ -140,7 +157,7 @@ object ACO_LP {
   }
     
         var c : Array[Int] = Array()
-    
+    //# Below this line I have not reviwed the code. But following the same guidelines as mentioned above. Tyr to optimize the following code as well.
     
     for(i <- 0 to iter-1){
         for (k <- 0 to m-1){
@@ -166,7 +183,7 @@ object ACO_LP {
                 AProb  = Array.fill(adjacentTo.length)(0)
                 println("adjacent value"+adjacentTo.length)
                    for(ai <-adjacentTo ){
-                      println(ai)     
+                      printlnvar adjacencyMatrix = Array.ofDim[Int] (TotalNoOfNodes1, TotalNoOfNodes1)(ai)     
                     }
 
                   var arr : Array [Int] = Array()  
