@@ -102,7 +102,7 @@ object ACO_LP {
     var adjacencyMatrix = Array.ofDim[Int] (TotalNoOfNodes1, TotalNoOfNodes1)
     println("Adjacency Matrix is " )
     
-     for (i <- 0 to lines.length-1 ){       //#   You once repated the same loop above then why you haven't set this matrix over there. As repeating same loops increases time.
+     for (i <- 0 to lines.length-1 ){       //#   You once repeated the same loop above then why you haven't set this matrix over there. As repeating same loops increases time.
          adjacencyMatrix(Subject(i).toInt)(Object(i).toInt) = (Link(i).toInt)   //# Here your assumption is that dataset always would be in number format. It cant be strings or other formats etc? Have you checked all datasets on which author has experimented as we have to repeat the same.
          adjacencyMatrix(Object(i).toInt)(Subject(i).toInt) = (Link(i).toInt)
       
@@ -117,8 +117,10 @@ object ACO_LP {
     
    }
     
-       var pheromoneMatrix = Array.ofDim[Double] (  TotalNoOfNodes1, TotalNoOfNodes1  )
+       var pheromoneMatrix = Array.ofDim[Double] (  TotalNoOfNodes1, TotalNoOfNodes1  )   //#   Better use DisEntities.length instead of TotalNoOfNodes1
        println("Pheromone Matrix is " )
+    
+    //#       The following nested loop can be avoided by using a map function. Discuss if you dont understand.
    for (i <- 1 to DisEntities.length+1){  //# Why not its 0 to DisEntities.length
       for (j <- 1 to DisEntities.length+1){ //# Why not its 0 to DisEntities.length
           if(adjacencyMatrix(i)(j) != 0){
@@ -135,7 +137,9 @@ object ACO_LP {
     
         var heuristicMatrix = Array.ofDim[Double](TotalNoOfNodes1, TotalNoOfNodes1)
         println("Heuristic Matrix is " )
-  
+    
+    
+      //#       The following nested loop can be avoided by using a map function. Discuss if you dont understand.
    for (i <- 1 to DisEntities.length+1)  {  
       for (j <- 1 to DisEntities.length+1){
             var count = 0
@@ -153,7 +157,7 @@ object ACO_LP {
   }
     
         var c : Array[Int] = Array()
-    
+    //# Below this line I have not reviwed the code. But following the same guidelines as mentioned above. Tyr to optimize the following code as well.
     
     for(i <- 0 to iter-1){
         for (k <- 0 to m-1){
